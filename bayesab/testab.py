@@ -35,6 +35,14 @@ class TestResults():
     def __init__(self, **kwargs):
         self.kwargs = kwargs
 
+    def stats_map(self):
+        return {
+            'p_success': self.kwargs['p_success'],
+            'a_b_difference': self.kwargs['a_b_difference'].statistic,
+            'a_fit': self.kwargs['a_fit'].statistic,
+            'b_fit': self.kwargs['b_fit'].statistic,
+            'a_loss_ratio': self.kwargs['a_loss_ratio']
+        }
 
     def __str__(self):
         results = 'P (A > B) by {}%: {}%\n'.format(self.kwargs['target_lift'], self.kwargs['p_success']) \
@@ -65,5 +73,6 @@ def testAB(a, b, distribution, monte_carlo_samples=1000, p_lift=0):
                        a_b_difference =  stats.ks_2samp(a, b),
                        a_fit = stats.ks_2samp(a, bi_sample_a),
                        b_fit = stats.ks_2samp(b, bi_sample_b),
+                       a_loss_ratio = 0 if sum(b) == 0 else (sum(b) - sum(a)) / sum(b),
                        prosterior_a = prosterior_a,
                        prosterior_b = prosterior_b)
