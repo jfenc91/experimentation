@@ -26,7 +26,7 @@ def calculate_sample(sample):
     # seed the random for multiproc reasons
     np.random.seed(sample + random.randint(0, 100))
     v_a = np.random.binomial(1, .5, max_samples)
-    v_b = np.random.binomial(1, .49, max_samples)
+    v_b = np.random.binomial(1, .3, max_samples)
     sample_results = {'step':[], 'sample': sample}
     for i in range(len(peeks)):
         peek = peeks[i]
@@ -50,7 +50,7 @@ for data in tqdm.tqdm(pool.imap(calculate_sample, range(samples)), total=samples
 #total_results_th = pool.map(calculate_sample, range(samples))
 total_results = pd.concat(total_results_th)
 
-total_results.to_csv('./b_early_stop_simulation_results_{}_{}.csv'.format(samples, max_samples))
+total_results.to_csv('./b_early_stop_simulation_results_{}_{}_v2.csv'.format(samples, max_samples))
 #
 # import seaborn as sns
 # sns.set(style="darkgrid")
